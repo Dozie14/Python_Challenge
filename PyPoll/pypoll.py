@@ -17,14 +17,14 @@ with open(election_data) as csvfile:
     header = next(reader)
     for row in reader:
         votes = votes + 1
-        candidate_name = row[2]  
+        candidate_name = row[2]
 
         if candidate_name not in candidate_options:
-            
+
             candidate_options.append(candidate_name)
 
             candidate_votes[candidate_name] = 1
-            
+
         else:
             candidate_votes[candidate_name] = candidate_votes[candidate_name] + 1
 
@@ -32,42 +32,16 @@ with open(election_data) as csvfile:
     if (votes > winner_votes):
         greatest_votes[1] = candidate_votes
         greatest_votes[0] = row[2]
-    
-    
-    print("Election Results")
-    print("-------------------------")
-    print("Total Votes " + str(votes))
-    print("-------------------------")
-#results
+
+    election_analysis = "Election Results\n-------------------------\nTotal Votes: {}\n-------------------------".format(str(votes))
     for candidate in candidate_votes:
-        print(candidate + " " + str(round(((candidate_votes[candidate]/votes)*100))) + "%" + " (" + str(candidate_votes[candidate]) + ")") 
-        candidate_results = (candidate + " " + str(round(((candidate_votes[candidate]/votes)*100))) + "%" + " (" + str(candidate_votes[candidate]) + ")") 
-    
-candidate_votes
-
-winner = sorted(candidate_votes.items(),)
-
-#results
-print("-------------------------")
-print("Winner: " + str(winner[1]))
-print("-------------------------")
-
-
-
-
+        election_analysis += str("\n"+candidate + " " + str(round(
+            ((candidate_votes[candidate]/votes)*100))) + "%" + " (" + str(candidate_votes[candidate]) + ")")
+    winner = sorted(candidate_votes.items(),)  
+    election_analysis += str("\n-------------------------\nWinner: " + str(winner[1]))
+    print(election_analysis)
 
 # Output Files
-with open(output, "w") as txt_file:
-    
-    txt_file.write("Election Results")
-    txt_file.write("\n")
-    txt_file.write("-------------------------")
-    txt_file.write("\n")
-    txt_file.write(candidate + " " + str(round(((candidate_votes[candidate]/votes)*100))) + "%" + " (" + str(candidate_votes[candidate]) + ")")
-    txt_file.write(str(winner))
-    txt_file.write("\n")
-    txt_file.write("-------------------------")
-    txt_file.write("\n")
-    txt_file.write("Winner: " + str(winner[1]))
-    txt_file.write("\n")
-    txt_file.write("Total Votes " + str(votes))
+    with open(output, "w") as txt_file:
+
+        txt_file.write(election_analysis)
